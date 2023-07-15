@@ -1,19 +1,18 @@
 <h2>Products</h2>
-<a href="/form-products">Crear Productos</a>
+<a href="/form-products">Agregar Producto</a>
 <hr>
 
 <div class="row">
-    {{#each products}}
-
-    <div class="col-sm">
-        <div class="card " style="width: 18rem;">
-            <img class="card-img-top" src="{{this.image}}" height="300" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">{{this.name}}</h5>
-                <p class="card-text">{{this.description}}</p>
-                <a href="#" class="btn btn-primary">$ {{this.price}}</a>
-            </div>
-        </div>
+  {{#each products}}
+  <div class="col-sm">
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="{{this.image}}" alt="{{this.name}}">
+      <div class="card-body">
+        <h5 class="card-title">{{this.name}}</h5>
+        <p class="card-text">{{this.description}}</p>
+        <a href="#" class="btn btn-primary">$ {{this.price}}</a>
+      </div>
     </div>
-    {{/each}}
+  </div>
+  {{/each}}
 </div>

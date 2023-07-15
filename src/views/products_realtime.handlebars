@@ -1,63 +1,62 @@
-<h2>Products - Real Time</h2>
+<h2>Agregar Producto</h2>
 
-<form id='myForm'>
-    Name: <input type="text" name="name">
-    <br>
-    Price: <input type="number" name="price">
-    <br>
-    <button type="submit">Enviar</button>
+<form id="myForm">
+  Nombre: <input type="text" name="name">
+  <br>
+  Precio: <input type="number" name="price">
+  <br>
+  <button type="submit">Agregar</button>
 </form>
 
 <hr>
 
 <table class="table">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Price</th>
-        </tr>
-    </thead>
-    <tbody id="tbody">
-        {{#each products}}
-        <tr>
-            <th scope="row">{{this.id}}</th>
-            <td>{{this.name}}</td>
-            <td>{{this.price}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody id="tbody">
+    {{#each products}}
+    <tr>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.price}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
 </table>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    const socket = io()
+  const socket = io();
 
-    document.getElementById('myForm').onsubmit = e => {
-        e.preventDefault()
+  document.getElementById('myForm').onsubmit = (e) => {
+    e.preventDefault();
 
-        const name = document.querySelector('input[name=name]').value
-        const price = parseInt(document.querySelector('input[name=price]').value)
+    const name = document.querySelector('input[name=name]').value;
+    const price = parseInt(document.querySelector('input[name=price]').value);
 
-        const product = { name, price }
-        socket.emit('new-product', product)
+    const product = { name, price };
+    socket.emit('new-product', product);
+  };
+    socket.on('connected', () => {
+    console.log('Cliente conectado'); // Mostrar mensaje en la consola del navegador
+  });
+  socket.on('reload-table', (products) => {
+    const tbody = document.getElementById('tbody');
+    let html = '';
 
-    }
+    products.forEach((product) => {
+      html += `<tr>
+        <th scope="row">${product.id}</th>
+        <td>${product.name}</td>
+        <td>${product.price}</td>
+      </tr>`;
+    });
 
-    socket.on('reload-table', products => {
-        console.log(products)
-        const tbody = document.getElementById('tbody')
-
-        let html = '';
-        products.forEach(product => {
-            html += `<tr>
-                <th scope="row">${product.id}</th>
-                <td>${product.name}</td>
-                <td>${product.price}</td>
-            </tr>`
-        })
-
-        tbody.innerHTML = html
-    })
-
+    tbody.innerHTML = html;
+  });
 </script>
